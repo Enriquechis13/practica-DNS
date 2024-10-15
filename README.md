@@ -1,4 +1,4 @@
-# Práctica Vagrant
+# Práctica DNS
 
 Este repositorio contiene los archivos necesarios para la creación de máquinas virtuales utilizando Vagrant.
 
