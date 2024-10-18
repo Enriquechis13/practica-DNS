@@ -1,14 +1,18 @@
 Vagrant.configure("2") do |config|
-    # Configuración de la máquina virtual
-    config.vm.box = "ubuntu/bionic64"
-  
-    # Configuración de red
-    config.vm.network "private_network", type: "dhcp"
-  
-    # Provisionamiento
-    config.vm.provision "shell", inline: <<-SHELL
-      apt-get update
-      apt-get install -y apache2
-    SHELL
+  config.vm.network "private_network", type: "dhcp"
+
+  # Máquina 1: Debian texto (venus)
+  config.vm.define "venus" do |venus|
+    venus.vm.box = "debian/bookworm64"
+    venus.vm.hostname = "venus.sistema.test"
+    venus.vm.network "private_network", ip: "192.168.57.102"
   end
-  
+
+  # Máquina 2: Debian texto (tierra)
+  config.vm.define "tierra" do |tierra|
+    tierra.vm.box = "debian/buster64"
+    tierra.vm.hostname = "tierra.sistema.test"
+    tierra.vm.network "private_network", ip: "192.168.57.103"
+  end
+end
+
