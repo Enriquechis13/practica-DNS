@@ -14,7 +14,7 @@ Este repositorio contiene los archivos necesarios para la creación de máquinas
 
 ## Transferencia de Zona
 
-![Texto alternativo](imagenes/vagrant1.png)
+![Imagen vagrant](imagenes/vagrant1.png)
 
 ## Requisitos
 
@@ -28,16 +28,14 @@ Este proyecto está bajo la licencia MIT.
 ## 2. Datos del problema
 
 ### 2.1 Red
-Todas las máquinas virtuales están configuradas en la red privada `192.168.57.0/24`. A cada máquina se le asigna una IP fija dentro de este rango, y se les configura un nombre FQDN (Fully Qualified Domain Name).
+Las dos máquinas virtuales están configuradas en la red privada `192.168.57.0/24`. A cada máquina se le asigna una IP fija dentro de este rango, y se les configura un nombre FQDN (Fully Qualified Domain Name).
 
 ### 2.2 Equipos
 
 | Equipo               | FQDN                | IP              |
 |----------------------|---------------------|-----------------|
-| Linux gráfico        | mercurio.sistema.test | 192.168.57.101  |
 | Debian texto         | venus.sistema.test   | 192.168.57.102  |
 | Debian texto         | tierra.sistema.test  | 192.168.57.103  |
-| Windows gráfico      | marte.sistema.test   | 192.168.57.104  |
 
 ### Cómo levantar las máquinas
 
@@ -47,4 +45,8 @@ Para levantar las máquinas, sigue estos pasos:
    ```bash
    git clone https://github.com/Enriquechis13/practica-DNS.git
    cd practica-DNS
+    ```
+## Inicio Venus y Tierra
 
+![Imagen vagrant](imagenes/vagrant2.png)
+![Imagen vagrant](imagenes/vagrant3.png)
