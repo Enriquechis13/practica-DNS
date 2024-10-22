@@ -122,6 +122,7 @@ options {
 8. **Alias de DNS:** Se añaden los registros `ns1` y `ns2` en el archivo de zona del servidor maestro (`/etc/bind/db.sistema.test`):
 
     ***a.*** `ns1 IN A 192.168.57.103;` — Define `ns1.sistema.test` como un alias para tierra.
+    
     ***b.*** `ns2 IN A 192.168.57.102;` — Define `ns2.sistema.test` como un alias para venus.
 
 *Parte 9 y 10 no realizada por no tener `marte.sistema.test`*
