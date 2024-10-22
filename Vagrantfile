@@ -12,6 +12,13 @@ Vagrant.configure("2") do |config|
     tierra.vm.box = "debian/bookworm64"
     tierra.vm.hostname = "tierra.sistema.test"
     tierra.vm.network "private_network", ip: "192.168.57.103"
+    
+    tierra.vm.provision "shell", inline: <<-SHELL
+      sudo apt-get update
+      sudo apt-get install -y bind9 bind9utils bind9-doc
+      sudo cp -v /vagrant/named /etc/default/named
+      sudo systemctl restart named
+    SHELL
   end
 end
 

@@ -50,3 +50,6 @@ Para levantar las máquinas, sigue estos pasos:
 
 ![Imagen vagrant](imagenes/vagrant2.png)
 ![Imagen vagrant](imagenes/vagrant3.png)
+
+## 3. Datos del DNS
+
