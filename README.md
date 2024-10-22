@@ -68,7 +68,7 @@ El proyecto está basado en la configuración de un servidor DNS usando **Bind9*
 
 Para permitir que el servidor DNS acepte consultas recursivas solo desde ciertas redes, sigue estos pasos:
 
-1. Abre el archivo de configuración de Bind9:
+Abre el archivo de configuración de Bind9:
    ```bash
    sudo nano /etc/bind/named.conf.options
 
