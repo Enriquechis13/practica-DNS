@@ -68,8 +68,8 @@ El proyecto está basado en la configuración de un servidor DNS usando **Bind9*
 
 Para permitir que el servidor DNS acepte consultas recursivas solo desde ciertas redes, sigue estos pasos:
 
-Abre el archivo de configuración de Bind9:
-   ```bash
+ Abre el archivo de configuración de Bind9:
+```bash
    sudo nano /etc/bind/named.conf.options
 
    acl "allowed_clients" {
@@ -87,6 +87,6 @@ Abre el archivo de configuración de Bind9:
         auth-nxdomain no;      // Conformidad con RFC8482
         listen-on-v6 { any; }; // Asegúrate de que IPv6 no esté habilitado si solo usas IPv4.
     };
-    ```
+```
 
 4. **Servidor maestro:** `tierra.sistema.test` tiene autoridad sobre la zona directa e inversa.
