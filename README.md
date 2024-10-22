@@ -58,7 +58,7 @@ El proyecto está basado en la configuración de un servidor DNS usando **Bind9*
 - **Tierra (maestro)**: Controla la zona directa e inversa.
 - **Venus (esclavo)**: Sincroniza sus registros DNS con `tierra`.
 
-### 3.1. Configuraciones principales:
+### Configuraciones principales:
 
 1. **IPv4 activado solamente:** En la configuración de Bind, se fuerza el uso de solo IPv4 añadiendo `OPTIONS="-u bind -4"` en `/etc/default/named`.
 
@@ -90,3 +90,40 @@ Para permitir que el servidor DNS acepte consultas recursivas solo desde ciertas
 ```
 
 4. **Servidor maestro:** `tierra.sistema.test` tiene autoridad sobre la zona directa e inversa.
+
+5. **Servidor esclavo:** `venus.sistema.test` sincroniza su configuración con `tierra.sistema.test` y realiza consultas al maestro para obtener los registros DNS.
+
+Asegúrate de crear los archivos de zona necesarios para el servidor maestro (`tierra.sistema.test`):
+
+6. **Tiempo:** `venus.sistema.test` sincroniza su configuración con `tierra.sistema.test` y realiza consultas al maestro para obtener los registros DNS.
+
+```bash
+    acl "allowed_clients" {
+    127.0.0.0/8;           // Permitir localhost
+    192.168.57.0/24;       // Permitir la red privada
+};
+
+options {
+    directory "/var/cache/bind";
+
+    dnssec-validation yes; // Validación DNSSEC habilitada
+    recursion yes;         // Habilitar la recursión
+    allow-recursion { "allowed_clients"; }; // Especificar la ACL
+
+    auth-nxdomain no;      // Conformidad con RFC8482
+    listen-on-v6 { any; }; // Asegúrate de que IPv6 no esté habilitado si solo usas IPv4.
+
+    negative-cache-timeout 7200; // Tiempo en caché para respuestas negativas de 2 horas
+};
+```
+
+7. **Reenviar consultas no autorizadas:** Debes modificar la configuración del servidor DNS en el servidor maestro (`tierra`). A continuación, se detallan los cambios que necesitas realizar en el `Vagrantfile`, específicamente en la sección del servidor maestro.
+
+8. **Alias de DNS:** Se añaden los registros `ns1` y `ns2` en el archivo de zona del servidor maestro (`/etc/bind/db.sistema.test`):
+
+    ***a.*** `ns1 IN A 192.168.57.103;` — Define `ns1.sistema.test` como un alias para tierra.
+    ***b.*** `ns2 IN A 192.168.57.102;` — Define `ns2.sistema.test` como un alias para venus.
+
+*Parte 9 y 10 no realizada por no tener `marte.sistema.test`*
+
+## 4. Comprobación
