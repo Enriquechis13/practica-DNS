@@ -53,3 +53,40 @@ Para levantar las máquinas, sigue estos pasos:
 
 ## 3. Datos del DNS
 
+El proyecto está basado en la configuración de un servidor DNS usando **Bind9**. Se ha configurado una arquitectura maestro-esclavo:
+
+- **Tierra (maestro)**: Controla la zona directa e inversa.
+- **Venus (esclavo)**: Sincroniza sus registros DNS con `tierra`.
+
+### 3.1. Configuraciones principales:
+
+1. **IPv4 activado solamente:** En la configuración de Bind, se fuerza el uso de solo IPv4 añadiendo `OPTIONS="-u bind -4"` en `/etc/default/named`.
+
+2. **DNSSEC habilitado:** La opción `dnssec-validation` está establecida en `yes`.
+
+3. **Configuración de ACL para Consultas Recursivas**
+
+Para permitir que el servidor DNS acepte consultas recursivas solo desde ciertas redes, sigue estos pasos:
+
+1. Abre el archivo de configuración de Bind9:
+   ```bash
+   sudo nano /etc/bind/named.conf.options
+
+   acl "allowed_clients" {
+    127.0.0.0/8;           // Permitir localhost
+    192.168.57.0/24;       // Permitir la red privada
+    };
+
+    options {
+        directory "/var/cache/bind";
+
+        dnssec-validation yes; // Validación DNSSEC habilitada
+        recursion yes;         // Habilitar la recursión
+        allow-recursion { "allowed_clients"; }; // Especificar la ACL
+
+        auth-nxdomain no;      // Conformidad con RFC8482
+        listen-on-v6 { any; }; // Asegúrate de que IPv6 no esté habilitado si solo usas IPv4.
+    };
+    ```
+
+4. **Servidor maestro:** `tierra.sistema.test` tiene autoridad sobre la zona directa e inversa.
