@@ -78,6 +78,41 @@ Vagrant.configure("2") do |config|
       echo 'ns1 IN A 192.168.57.103;' | sudo tee -a /etc/bind/db.sistema.test 
       echo 'ns2 IN A 192.168.57.102;' | sudo tee -a /etc/bind/db.sistema.test
 
+      echo 'zone "sistema.test" {' | sudo tee -a /etc/bind/named.conf.local
+      echo '    type master;' | sudo tee -a /etc/bind/named.conf.local
+      echo '    file "/etc/bind/db.sistema.test";' | sudo tee -a /etc/bind/named.conf.local
+      echo '};' | sudo tee -a /etc/bind/named.conf.local
+      echo '' | sudo tee -a /etc/bind/named.conf.local
+      echo 'zone "57.168.192.in-addr.arpa" {' | sudo tee -a /etc/bind/named.conf.local
+      echo '    type master;' | sudo tee -a /etc/bind/named.conf.local
+      echo '    file "/etc/bind/db.192.168.57";' | sudo tee -a /etc/bind/named.conf.local
+      echo '};' | sudo tee -a /etc/bind/named.conf.local
+
+      echo 'zone "57.168.192.in-addr.arpa" {' | sudo tee -a /etc/bind/named.conf.local
+      echo '    type master;' | sudo tee -a /etc/bind/named.conf.local
+      echo '    file "/etc/bind/db.192";' | sudo tee -a /etc/bind/named.conf.local
+      echo '};' | sudo tee -a /etc/bind/named.conf.local
+
+       echo '$TTL    86400' | sudo tee /etc/bind/db.sistema.test
+      echo '@       IN      SOA     tierra.sistema.test. admin.sistema.test. (' | sudo tee -a /etc/bind/db.sistema.test
+      echo '                          2023102401 ; Serial' | sudo tee -a /etc/bind/db.sistema.test
+      echo '                          3600       ; Refresh' | sudo tee -a /etc/bind/db.sistema.test
+      echo '                          1800       ; Retry' | sudo tee -a /etc/bind/db.sistema.test
+      echo '                          604800     ; Expire' | sudo tee -a /etc/bind/db.sistema.test
+      echo '                          86400 )    ; Negative Cache TTL' | sudo tee -a /etc/bind/db.sistema.test
+      echo '' | sudo tee -a /etc/bind/db.sistema.test
+      echo '; Registros de nombre de servidor' | sudo tee -a /etc/bind/db.sistema.test
+      echo '@       IN      NS      ns1.sistema.test.' | sudo tee -a /etc/bind/db.sistema.test
+      echo '@       IN      NS      ns2.sistema.test.' | sudo tee -a /etc/bind/db.sistema.test
+      echo '' | sudo tee -a /etc/bind/db.sistema.test
+      echo '; Direcciones IP de los servidores de nombres' | sudo tee -a /etc/bind/db.sistema.test
+      echo 'ns1     IN      A       192.168.57.103' | sudo tee -a /etc/bind/db.sistema.test
+      echo 'ns2     IN      A       192.168.57.102' | sudo tee -a /etc/bind/db.sistema.test
+      echo '' | sudo tee -a /etc/bind/db.sistema.test
+      echo '; Registros adicionales' | sudo tee -a /etc/bind/db.sistema.test
+      echo 'venus   IN      A       192.168.57.102' | sudo tee -a /etc/bind/db.sistema.test
+      echo 'tierra  IN      A       192.168.57.103' | sudo tee -a /etc/bind/db.sistema.test
+      
       sudo systemctl restart bind9
     SHELL
   end

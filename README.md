@@ -28,7 +28,7 @@ He creado los diferentes archivos que pide la practica:
 `Vagrantfile:` Este archivo se utiliza para configurar máquinas virtuales.
 `README.md:` Es un archivo de Markdown que contiene una descripción del proyecto.
 `LICENSE:` Este archivo define los términos legales bajo los cuales el proyecto puede ser utilizado, modificado o distribuido.
-`.gitignore:` Es un archivo utilizado en proyectos gestionados con Git para especificar qué archivos o directorios deben ser ignorados por el sistema de control de versiones.  
+`.gitignore:` Es un archivo utilizado en proyectos gestionados con Git para especificar qué archivos o directorios deben ser ignorados por el sistema de control de versiones.   
 
 ### Licencia
 
@@ -137,3 +137,115 @@ options {
 *Parte 9 y 10 no realizada por no tener `marte.sistema.test`*
 
 ## 4. Comprobación
+
+Para la comprobacion he utilizado como dice el ejercicio el comando `dig` y `nslookup`:
+
+1.  **Resolver los registros tipo A:** 
+
+**dig**
+
+Comando para verificar el registro tipo A de `venus.sistema.test:`
+
+```bash 
+dig @192.168.57.103 venus.sistema.test A
+```
+
+Comando para verificar el registro tipo A de `tierra.sistema.test:`
+
+```bash 
+dig @192.168.57.103 tierra.sistema.test A
+```
+
+**nslookup**
+
+Comando para verificar el registro tipo A de `venus.sistema.test:`
+
+```bash
+nslookup venus.sistema.test 192.168.57.103
+```
+
+Comando para verificar el registro tipo A de `tierra.sistema.test:`
+
+```bash
+nslookup tierra.sistema.test 192.168.57.103
+```
+
+2.  **Resolver de forma inversa sus direcciones IP:** 
+
+**dig**
+
+Ejecuta el siguiente comando en `venus` para comprobar la resolución inversa de `192.168.57.102` (IP de `venus`):
+
+```bash
+dig -x 192.168.57.102 @192.168.57.103
+```
+
+Ejecuta el siguiente comando en `tierra` para comprobar la resolución inversa de `192.168.57.103` (IP de `tierra`):
+
+```bash
+dig -x 192.168.57.103 @192.168.57.103
+```
+
+**nslookup**
+
+Ejecuta el siguiente comando en `venus` para comprobar la resolución inversa de `192.168.57.102` (IP de `venus`):
+
+```bash
+nslookup 192.168.57.102 192.168.57.103
+```
+
+Ejecuta el siguiente comando en `tierra` para comprobar la resolución inversa de `192.168.57.103` (IP de `tierra`):
+
+```bash
+nslookup 192.168.57.103 192.168.57.103
+```
+
+3.  **Resolver los alias ns1.sistema.test y ns2.sistema.test:** 
+
+He actualizado el contenido de `/etc/bind/db.sistema.test:`
+
+```bash
+$TTL    86400
+@       IN      SOA     tierra.sistema.test. admin.sistema.test. (
+                          2023102401 ; Serial
+                          3600       ; Refresh
+                          1800       ; Retry
+                          604800     ; Expire
+                          86400 )    ; Negative Cache TTL
+;
+
+; Registros de nombre de servidor
+@       IN      NS      ns1.sistema.test.
+@       IN      NS      ns2.sistema.test.
+
+; Direcciones IP de los servidores de nombres
+ns1     IN      A       192.168.57.103
+ns2     IN      A       192.168.57.102
+
+; Registros adicionales
+venus   IN      A       192.168.57.102
+tierra  IN      A       192.168.57.103
+```
+
+Utilizando el terminal he ejecutando los siguientes comandos:
+
+**dig**
+
+```bash 
+nslookup ns1.sistema.test 192.168.57.103
+nslookup ns2.sistema.test 192.168.57.103
+```
+
+**nslookup**
+
+```bash 
+dig ns1.sistema.test @192.168.57.103
+dig ns2.sistema.test @192.168.57.103
+```
+
+4. **Consulta para saber los servidores NS de sistema.test:**
+
+He obtenido los servidores de nombres (NS) para el dominio `sistema.test:`
+
+**dig**
+

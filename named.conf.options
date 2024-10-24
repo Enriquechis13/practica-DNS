@@ -8,7 +8,6 @@ options {
     auth-nxdomain no;      // Conformidad con RFC8482
     listen-on-v6 { any; }; // Asegúrate de que IPv6 no esté habilitado si solo usas IPv4.
 
-    negative-cache-timeout 7200; // Tiempo en caché para respuestas negativas de 2 horas
 };
 
 
