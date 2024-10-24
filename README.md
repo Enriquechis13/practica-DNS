@@ -4,7 +4,7 @@
 
 Este repositorio contiene los archivos necesarios para la creación de máquinas virtuales utilizando Vagrant.
 
-## Instrucciones para ejecutar
+### Instrucciones para ejecutar
 
 1. Clona este repositorio:
 
@@ -12,16 +12,25 @@ Este repositorio contiene los archivos necesarios para la creación de máquinas
 
 3. Verifica que Apache se haya instalado correctamente accediendo a la dirección IP de la máquina virtual.
 
-## Transferencia de Zona
+### Transferencia de Zona
 
 ![Imagen vagrant](imagenes/vagrant1.png)
 
-## Requisitos
+### Requisitos
 
 - [Vagrant](https://www.vagrantup.com/downloads)
 - [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 
-## Licencia
+### Instalacion 
+
+He creado los diferentes archivos que pide la practica:
+
+`Vagrantfile:` Este archivo se utiliza para configurar máquinas virtuales.
+`README.md:` Es un archivo de Markdown que contiene una descripción del proyecto.
+`LICENSE:` Este archivo define los términos legales bajo los cuales el proyecto puede ser utilizado, modificado o distribuido.
+`.gitignore:` Es un archivo utilizado en proyectos gestionados con Git para especificar qué archivos o directorios deben ser ignorados por el sistema de control de versiones.  
+
+### Licencia
 
 Este proyecto está bajo la licencia MIT.
 
