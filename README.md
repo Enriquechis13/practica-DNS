@@ -249,3 +249,22 @@ He obtenido los servidores de nombres (NS) para el dominio `sistema.test:`
 
 **dig**
 
+```bash
+dig NS sistema.test @tierra.sistema.test
+```
+
+**nslookup**
+
+```bash
+nslookup -type=NS sistema.test tierra.sistema.test
+```
+
+5. **Consulta para saber los servidores MX de sistema.test:**
+
+He consultado los servidores de correo (MX) del dominio `sistema.test:`
+
+**dig**
+
+```bash
+dig MX sistema.test @tierra.sistema.test
+```
