@@ -82,19 +82,19 @@ Para permitir que el servidor DNS acepte consultas recursivas solo desde ciertas
    sudo nano /etc/bind/named.conf.options
 
    acl "allowed_clients" {
-    127.0.0.0/8;           // Permitir localhost
-    192.168.57.0/24;       // Permitir la red privada
+    127.0.0.0/8;
+    192.168.57.0/24;
     };
 
     options {
         directory "/var/cache/bind";
 
-        dnssec-validation yes; // Validación DNSSEC habilitada
-        recursion yes;         // Habilitar la recursión
-        allow-recursion { "allowed_clients"; }; // Especificar la ACL
+        dnssec-validation yes;
+        recursion yes;
+        allow-recursion { "allowed_clients"; };
 
-        auth-nxdomain no;      // Conformidad con RFC8482
-        listen-on-v6 { any; }; // Asegúrate de que IPv6 no esté habilitado si solo usas IPv4.
+        auth-nxdomain no;
+        listen-on-v6 { any; }; 
     };
 ```
 
@@ -108,21 +108,21 @@ Asegúrate de crear los archivos de zona necesarios para el servidor maestro (`t
 
 ```bash
     acl "allowed_clients" {
-    127.0.0.0/8;           // Permitir localhost
-    192.168.57.0/24;       // Permitir la red privada
+    127.0.0.0/8;
+    192.168.57.0/24;
 };
 
 options {
     directory "/var/cache/bind";
 
-    dnssec-validation yes; // Validación DNSSEC habilitada
-    recursion yes;         // Habilitar la recursión
-    allow-recursion { "allowed_clients"; }; // Especificar la ACL
+    dnssec-validation yes;
+    recursion yes;
+    allow-recursion { "allowed_clients"; };
 
-    auth-nxdomain no;      // Conformidad con RFC8482
-    listen-on-v6 { any; }; // Asegúrate de que IPv6 no esté habilitado si solo usas IPv4.
+    auth-nxdomain no;
+    listen-on-v6 { any; }; 
 
-    negative-cache-timeout 7200; // Tiempo en caché para respuestas negativas de 2 horas
+    negative-cache-timeout 7200; 
 };
 ```
 
@@ -267,4 +267,60 @@ He consultado los servidores de correo (MX) del dominio `sistema.test:`
 
 ```bash
 dig MX sistema.test @tierra.sistema.test
+```
+
+**nslookup**
+
+```bash
+nslookup -type=MX sistema.test tierra.sistema.test
+```
+
+6. **Comprueba que se ha realizado la transferencia de la zona entre el servidor DNS maestro y el esclavo. Revisa los logs o realiza una consulta del registro AXFR:**
+
+Para verificar que se ha realizado la transferencia de zona entre el servidor DNS maestro (`tierra.sistema.test`) y el esclavo (`venus.sistema.test`), realiza una consulta AXFR. 
+
+**dig**
+
+```bash
+dig @192.168.57.103 sistema.test AXFR
+```
+
+**nslookup**
+
+```bash
+nslookup
+> server 192.168.57.103
+> ls -d sistema.test       
+```
+
+7. **Consulta que tanto maestro como esclavo pueden contestar a las mismas preguntas:**
+
+Para comprobar que tanto el servidor maestro (`tierra`) como el esclavo (`venus`) pueden responder a las mismas consultas DNS.
+
+**nslookup - Tierra**
+
+```bash
+nslookup venus.sistema.test 192.168.57.103
+```
+
+```bash
+nslookup -type=NS sistema.test 192.168.57.103
+```
+
+```bash
+nslookup -type=MX sistema.test 192.168.57.103
+```
+
+**nslookup - Venus** 
+
+```bash
+nslookup venus.sistema.test 192.168.57.102
+```
+
+```bash
+nslookup -type=NS sistema.test 192.168.57.102
+```
+
+```bash
+nslookup -type=MX sistema.test 192.168.57.102
 ```
