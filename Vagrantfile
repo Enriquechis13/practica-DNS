@@ -38,7 +38,7 @@ Vagrant.configure("2") do |config|
     tierra.vm.provision "shell", inline: <<-SHELL
       sudo apt-get update
       sudo apt-get install -y bind9 bind9utils bind9-doc
-      
+      cp -v /vagrant/named.conf.options /etc/bind/named.conf.options
       echo 'acl "allowed_clients" {' | sudo tee -a /etc/bind/named.conf.options
       echo '    127.0.0.0/8;' | sudo tee -a /etc/bind/named.conf.options
       echo '    192.168.57.0/24;' | sudo tee -a /etc/bind/named.conf.options
@@ -105,6 +105,12 @@ Vagrant.configure("2") do |config|
       echo '@       IN      NS      ns1.sistema.test.' | sudo tee -a /etc/bind/db.sistema.test
       echo '@       IN      NS      ns2.sistema.test.' | sudo tee -a /etc/bind/db.sistema.test
       echo '' | sudo tee -a /etc/bind/db.sistema.test
+
+      echo '@       IN      NS      ns1.sistema.test.' | sudo tee -a /etc/bind/db.sistema.test
+      echo '@       IN      NS      ns2.sistema.test.' | sudo tee -a /etc/bind/db.sistema.test
+      echo '@       IN      MX 10   marte.sistema.test.' | sudo tee -a /etc/bind/db.sistema.test
+      echo '' | sudo tee -a /etc/bind/db.sistema.test
+
       echo '; Direcciones IP de los servidores de nombres' | sudo tee -a /etc/bind/db.sistema.test
       echo 'ns1     IN      A       192.168.57.103' | sudo tee -a /etc/bind/db.sistema.test
       echo 'ns2     IN      A       192.168.57.102' | sudo tee -a /etc/bind/db.sistema.test
@@ -112,7 +118,8 @@ Vagrant.configure("2") do |config|
       echo '; Registros adicionales' | sudo tee -a /etc/bind/db.sistema.test
       echo 'venus   IN      A       192.168.57.102' | sudo tee -a /etc/bind/db.sistema.test
       echo 'tierra  IN      A       192.168.57.103' | sudo tee -a /etc/bind/db.sistema.test
-      
+      echo 'marte   IN      A       192.168.57.104' | sudo tee -a /etc/bind/db.sistema.test
+
       sudo systemctl restart bind9
     SHELL
   end

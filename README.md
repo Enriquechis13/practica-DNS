@@ -134,7 +134,24 @@ options {
     
     ***b.*** `ns2 IN A 192.168.57.102;` — Define `ns2.sistema.test` como un alias para venus.
 
-*Parte 9 y 10 no realizada por no tener `marte.sistema.test`*
+9. **mail.sistema.test. será un alias de marte.sistema.test.**
+
+He añadido los registros necesarios en el archivo de zona DNS en el servidor `tierra`.
+
+```bash
+echo 'marte   IN      A       192.168.57.104' | sudo tee -a /etc/bind/db.sistema.test
+```
+
+10. **El equipo marte.sistema.test. actuará como servidor de correo del dominio de correo sistema.test.**
+
+He añadido un registro MX (Mail Exchange) en el archivo de zona DNS en `tierra`.
+
+```bash
+ echo '@       IN      NS      ns1.sistema.test.' | sudo tee -a /etc/bind/db.sistema.test
+      echo '@       IN      NS      ns2.sistema.test.' | sudo tee -a /etc/bind/db.sistema.test
+      echo '@       IN      MX 10   marte.sistema.test.' | sudo tee -a /etc/bind/db.sistema.test 
+      echo '' | sudo tee -a /etc/bind/db.sistema.test
+```
 
 ## 4. Comprobación
 
