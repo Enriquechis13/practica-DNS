@@ -302,12 +302,18 @@ Para verificar que se ha realizado la transferencia de zona entre el servidor DN
 dig @192.168.57.103 sistema.test AXFR
 ```
 
-**nslookup**
+**Archivo .sh**
+
+*Tierra*
 
 ```bash
-nslookup
-> server 192.168.57.103
-> ls -d sistema.test       
+/vagrant/test.sh 192.168.57.103
+```
+
+*Venus*
+
+```bash
+/vagrant/test.sh 192.168.57.102
 ```
 
 7. **Consulta que tanto maestro como esclavo pueden contestar a las mismas preguntas:**
